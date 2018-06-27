@@ -1,15 +1,41 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import axios from 'axios';
+import SearchBar from './components/search_bar';
 
-import App from './components/app';
-import reducers from './reducers';
+class App extends Component {
 
-const createStoreWithMiddleware = applyMiddleware()(createStore);
+	constructor(props){
+		super()
 
-ReactDOM.render(
-  <Provider store={createStoreWithMiddleware(reducers)}>
-    <App />
-  </Provider>
-  , document.querySelector('.container'));
+		this.state = {
+			astronomy: [],
+		}
+	}
+
+	componentDidMount() {
+
+	axios.get('https://images-api.nasa.gov/search?q=apollo%2011')
+	.then(responce => {
+		this.setState({
+			astronomy: responce.data
+		})
+		console.log(responce.data.collection);
+	})
+	.catch(error => {
+		console.log(error, 'Failed to get data');
+	})
+
+}
+
+	render() {
+		const { astronomy } = this.state
+		return (
+		<div>
+			<SearchBar />
+		</div>
+		)
+ 	}
+}
+
+ReactDOM.render(<App />, document.querySelector('.container'));
