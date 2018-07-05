@@ -14,15 +14,11 @@ class App extends Component {
 
 	axios.get('https://images-api.nasa.gov/search?q=apollo11&media_type=image')
 	.then(response => {
-		this.setState({
-			astronomy: response.data.collection.items[0].links[0].href
-		});
-
-		
-		response.data.collection.items.map(function(imgs){
-				console.log(imgs.links[0].href);
+		var imgs = response.data.collection.items.map(function(imgs){
+				return imgs.links[0].href
 			})
-		})
+		this.setState({ astronomy: imgs });	
+	})
 
 
 	.catch(error => {
