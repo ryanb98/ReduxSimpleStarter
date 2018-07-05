@@ -7,22 +7,23 @@ import PictureList from './components/picture_list';
 class App extends Component {
 
 	constructor(props){
-		super(props)
+		super(props);
 
 		this.state = { astronomy: []}
 	
 
 	axios.get('https://images-api.nasa.gov/search?q=apollo11&media_type=image')
-	.then(responce => {
+	.then(response => {
 		this.setState({
-			astronomy: responce.data.collection.items[0].links[0].href
-		})
+			astronomy: response.data.collection.items[0].links[0].href
+		});
 
 		
-		responce.data.collection.items[0].links.map(function(imgs){
-				console.log(imgs.href);
+		response.data.collection.items.map(function(imgs){
+				console.log(imgs.links[0].href);
 			})
 		})
+
 
 	.catch(error => {
 		console.log(error, 'Failed to get data');
